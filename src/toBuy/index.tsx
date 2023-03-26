@@ -1,0 +1,1 @@
+export default function ToBuy(){return <div></div>}
