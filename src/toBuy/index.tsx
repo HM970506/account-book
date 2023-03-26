@@ -1,1 +1,1 @@
-export default function ToBuy(){return <div></div>}
+export default function ToBuy(){return <div><h1>구입예정목록</h1></div>}
