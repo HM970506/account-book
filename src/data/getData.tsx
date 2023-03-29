@@ -1,16 +1,13 @@
-import { collection, getDocs, getFirestore, onSnapshot, orderBy, query } from "firebase/firestore";
-import { useRef, useState } from "react";
-import { app } from "./firestore";
+import firestore from "./firebase";
+import { collection, addDoc, query, getDocs } from "firebase/firestore/lite";
 
-const firestore = getFirestore(app);
+export default async function getData() {
+  const usersCollectionRef = collection(firestore, "classifications");
+  const q =  query(usersCollectionRef);
 
-const Snapshot = onSnapshot(
-  query(
-    collection(firestore, `lunchbus/${id}/messages`),
-    orderBy("order", "desc")
-  ),
-  snapshot => {
-    //전역 상태관리 함수에 넣어서 상태를 업데이트.
-      console.log(snapshot);
-  },
-);
+const data = await getDocs(q);
+const newData = data.docs.map(doc => ({
+  ...doc.data()
+}));
+console.log(newData);
+}
