@@ -1,13 +1,17 @@
-import firestore from "./firebase";
-import { collection, addDoc, query, getDocs } from "firebase/firestore/lite";
+import app from "./firebase";
+import {
+  collection,
+  query,
+  onSnapshot,
+  getFirestore,
+  getDocs,
+} from "firebase/firestore";
 
 export default async function getData() {
-  const usersCollectionRef = collection(firestore, "classifications");
-  const q =  query(usersCollectionRef);
+  const firestore = getFirestore(app);
 
-const data = await getDocs(q);
-const newData = data.docs.map(doc => ({
-  ...doc.data()
-}));
-console.log(newData);
+  const querySnapshot = await getDocs(collection(firestore, "classifications"));
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
 }
